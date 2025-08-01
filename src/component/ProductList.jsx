@@ -5,8 +5,18 @@ function formatDate(value) {
   return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
 }
 
+const CATEGORY_MAP = {
+  FASHION: "패션",
+  BEAUTY: "뷰티",
+  SPORTS: "스포츠",
+  ELECTRONICS: "전자제품",
+  HOME_INTERIOR: "홈인테리어",
+  HOUSEHOLD_SUPPLIES: "생활용품",
+  KITCHENWARE: "주방용품",
+};
+
 function ProductItem({ product, onDelete }) {
-  const { id, name, description, price, stock, createdAt } = product;
+  const { id, name, description, price, stock, createdAt, category } = product;
 
   const handleDeleteClick = () => onDelete(id);
 
@@ -14,6 +24,9 @@ function ProductItem({ product, onDelete }) {
     <li className="product-card">
       <div className="product-header">
         <span className="product-name">{name}</span>
+        <div className="product-category">
+          {CATEGORY_MAP[category] || category}
+        </div>
       </div>
       <div className="product-date">{formatDate(createdAt)}</div>
       <div className="product-desc">{description}</div>

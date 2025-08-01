@@ -1,0 +1,10 @@
+.product-form {
+  margin-top: 10px;
+}
+
+.product-submit {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  align-self: flex-end;
+}

@@ -2,6 +2,7 @@ import ProductList from "./component/ProductList";
 import { useEffect, useState } from "react";
 import { getProducts } from "./api";
 import "./App.css";
+import ProductForm from "./component/ProductForm";
 
 const LIMIT = 6;
 
@@ -79,6 +80,7 @@ function App() {
           </button>
         </div>
       </div>
+      <ProductForm />
       <ProductList products={products} onDelete={handleDelete}></ProductList>
       {isLoading && <div className="spinner"></div>}
       {hasMore && (
