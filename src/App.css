@@ -69,8 +69,8 @@ button:hover:not(:disabled) {
   background: #1565c0;
 }
 
-/* 정렬 버튼 */
-.order-btn {
+/* 활성화 버튼 */
+.active-btn {
   background: none;
   color: black;
   border: none;
@@ -80,13 +80,14 @@ button:hover:not(:disabled) {
   cursor: pointer;
   margin-right: 8px;
   transition: background 0.2s, color 0.2s;
+  margin-bottom: 10px;
 }
 
-.order-btn:hover:not(:disabled):not(.active) {
+.active-btn:hover:not(:disabled):not(.active) {
   background: #e3f2fd;
 }
 
-.order-btn.active {
+.active-btn.active {
   background: #1976d2;
   color: #fff;
   border: 1px solid #1976d2;
@@ -126,4 +127,22 @@ span {
   to {
     transform: rotate(360deg);
   }
+}
+
+.product-form-container {
+  border-radius: 8px;
+  width: 100%;
+  margin: 20px auto;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.4s ease-out,
+    margin-top 0.5s ease-out;
+  margin-top: 0;
+  will-change: max-height, opacity, margin-top;
+}
+
+.product-form-container.open {
+  max-height: 1000px;
+  opacity: 1;
 }

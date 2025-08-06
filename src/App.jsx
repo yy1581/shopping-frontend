@@ -14,6 +14,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState(null);
   const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   const handleNewestClick = () => setOrder("newest");
 
@@ -54,33 +55,46 @@ function App() {
     setSearch(e.target["search"].value);
   };
 
+  const handleAddProductClick = () => {
+    setShowForm((prev) => !prev);
+  };
+
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT, search });
   }, [order, search]);
 
   return (
     <div className="App">
-      <div>
-        <form onSubmit={handleSearchSubmit}>
-          <input name="search" placeholder="검색어를 입력하세요" />
-          <button type="submit">검색</button>
-        </form>
-        <div className="order-buttons">
-          <button
-            className={`order-btn${order === "newest" ? " active" : ""}`}
-            onClick={handleNewestClick}
-          >
-            최신순
-          </button>
-          <button
-            className={`order-btn${order === "priceLowest" ? " active" : ""}`}
-            onClick={handleCheapestClick}
-          >
-            낮은 가격순
-          </button>
-        </div>
+      <form onSubmit={handleSearchSubmit}>
+        <input name="search" placeholder="검색어를 입력하세요" />
+        <button type="submit">검색</button>
+      </form>
+
+      <button
+        className={`active-btn${showForm ? " active" : ""}`}
+        onClick={handleAddProductClick}
+      >
+        상품 등록
+      </button>
+      <div className={`product-form-container${showForm ? " open" : ""}`}>
+        <ProductForm />
       </div>
-      <ProductForm />
+
+      <div className="order-buttons">
+        <button
+          className={`active-btn${order === "newest" ? " active" : ""}`}
+          onClick={handleNewestClick}
+        >
+          최신순
+        </button>
+        <button
+          className={`active-btn${order === "priceLowest" ? " active" : ""}`}
+          onClick={handleCheapestClick}
+        >
+          낮은 가격순
+        </button>
+      </div>
+
       <ProductList products={products} onDelete={handleDelete}></ProductList>
       {isLoading && <div className="spinner"></div>}
       {hasMore && (
