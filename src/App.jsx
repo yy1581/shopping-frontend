@@ -59,6 +59,11 @@ function App() {
     setShowForm((prev) => !prev);
   };
 
+  const handleSubmitSuccess = (newProduct) => {
+    setProducts((prevProducts) => [newProduct, ...prevProducts]);
+    setShowForm(false);
+  };
+
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT, search });
   }, [order, search]);
@@ -77,7 +82,7 @@ function App() {
         상품 등록
       </button>
       <div className={`product-form-container${showForm ? " open" : ""}`}>
-        <ProductForm />
+        <ProductForm onSubmitSuccess={handleSubmitSuccess} />
       </div>
 
       <div className="order-buttons">

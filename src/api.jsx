@@ -15,3 +15,18 @@ export async function getProducts({
   const body = await response.json();
   return body;
 }
+
+export async function createProduct(productData) {
+  const response = await fetch(`${BACKEND_URL}/products`, {
+    method: "POST",
+    body: JSON.stringify(productData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("상품을 생성하는데 실패했습니다.");
+  }
+  const body = await response.json();
+  return body;
+}

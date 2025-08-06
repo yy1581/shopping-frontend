@@ -1,19 +1,25 @@
 import { useState } from "react";
 import "./ProductForm.css";
+import { createProduct } from "../api";
 
-function ProductForm() {
-  const [values, setValues] = useState({
-    name: "",
-    description: "",
-    price: "",
-    stock: "",
-    category: "",
-  });
+const INITAL_VALUES = {
+  name: "",
+  description: "",
+  price: "",
+  stock: "",
+  category: "",
+};
 
+function ProductForm({ onSubmitSuccess }) {
+  const [values, setValues] = useState(INITAL_VALUES);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+
+  // 문자열을 숫자로 변환하는 함수
   function sanitize(type, value) {
     switch (type) {
       case "number":
-        return Number(value) || "";
+        return Number(value) || 0;
 
       default:
         return value;
@@ -28,14 +34,27 @@ function ProductForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newProduct = {
       ...values,
       price: Number(values.price),
       stock: Number(values.stock),
     };
-    console.log(newProduct);
+
+    let createdProduct;
+    try {
+      setIsSubmitting(true);
+      setSubmitError(null);
+      createdProduct = await createProduct(newProduct);
+    } catch (e) {
+      setSubmitError(e.message);
+      return;
+    } finally {
+      setIsSubmitting(false);
+    }
+    onSubmitSuccess(createdProduct);
+    setValues(INITAL_VALUES);
   };
 
   return (
@@ -114,9 +133,12 @@ function ProductForm() {
           />
         </div>
       </div>
-      <button type="submit" className="submit-button">
+      <button type="submit" className="submit-button" disabled={isSubmitting}>
         상품 등록
       </button>
+      {submitError?.message && (
+        <div className="error-message">{submitError}</div>
+      )}
     </form>
   );
 }
