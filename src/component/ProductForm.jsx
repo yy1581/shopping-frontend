@@ -1,8 +1,7 @@
 import { useState } from "react";
 import "./ProductForm.css";
-import { createProduct } from "../api";
 
-const INITAL_VALUES = {
+const INITIAL_VALUES = {
   name: "",
   description: "",
   price: "",
@@ -10,8 +9,13 @@ const INITAL_VALUES = {
   category: "",
 };
 
-function ProductForm({ onSubmitSuccess }) {
-  const [values, setValues] = useState(INITAL_VALUES);
+function ProductForm({
+  initialValues = INITIAL_VALUES,
+  onSubmitSuccess,
+  onSubmit,
+  onCancel,
+}) {
+  const [values, setValues] = useState(initialValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
@@ -46,7 +50,7 @@ function ProductForm({ onSubmitSuccess }) {
     try {
       setIsSubmitting(true);
       setSubmitError(null);
-      createdProduct = await createProduct(newProduct);
+      createdProduct = await onSubmit(newProduct);
     } catch (e) {
       setSubmitError(e.message);
       return;
@@ -54,7 +58,7 @@ function ProductForm({ onSubmitSuccess }) {
       setIsSubmitting(false);
     }
     onSubmitSuccess(createdProduct);
-    setValues(INITAL_VALUES);
+    setValues(INITIAL_VALUES);
   };
 
   return (
@@ -133,9 +137,16 @@ function ProductForm({ onSubmitSuccess }) {
           />
         </div>
       </div>
-      <button type="submit" className="submit-button" disabled={isSubmitting}>
-        상품 등록
-      </button>
+      <div className="form-actions">
+        {onCancel && (
+          <button type="button" className="cancel-button" onClick={onCancel}>
+            취소
+          </button>
+        )}
+        <button type="submit" className="submit-button" disabled={isSubmitting}>
+          {submitText}
+        </button>
+      </div>
       {submitError?.message && (
         <div className="error-message">{submitError}</div>
       )}

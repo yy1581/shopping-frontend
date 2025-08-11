@@ -1,6 +1,6 @@
 import ProductList from "./component/ProductList";
 import { useEffect, useState } from "react";
-import { getProducts } from "./api";
+import { createProduct, getProducts, updateProduct } from "./api";
 import "./App.css";
 import ProductForm from "./component/ProductForm";
 
@@ -59,9 +59,22 @@ function App() {
     setShowForm((prev) => !prev);
   };
 
-  const handleSubmitSuccess = (newProduct) => {
+  const handleCreateProductSuccess = (newProduct) => {
     setProducts((prevProducts) => [newProduct, ...prevProducts]);
     setShowForm(false);
+  };
+
+  const handleUpdateProductSuccess = (updatedProduct) => {
+    setProducts((prevProducts) => {
+      const index = prevProducts.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
+      return [
+        ...prevProducts.slice(0, index),
+        updatedProduct,
+        ...prevProducts.slice(index + 1),
+      ];
+    });
   };
 
   useEffect(() => {
@@ -72,7 +85,9 @@ function App() {
     <div className="App">
       <form onSubmit={handleSearchSubmit}>
         <input name="search" placeholder="검색어를 입력하세요" />
-        <button type="submit">검색</button>
+        <button className="search-btn" type="submit">
+          검색
+        </button>
       </form>
 
       <button
@@ -82,7 +97,10 @@ function App() {
         상품 등록
       </button>
       <div className={`product-form-container${showForm ? " open" : ""}`}>
-        <ProductForm onSubmitSuccess={handleSubmitSuccess} />
+        <ProductForm
+          onSubmit={createProduct}
+          onSubmitSuccess={handleCreateProductSuccess}
+        />
       </div>
 
       <div className="order-buttons">
@@ -100,7 +118,12 @@ function App() {
         </button>
       </div>
 
-      <ProductList products={products} onDelete={handleDelete}></ProductList>
+      <ProductList
+        products={products}
+        onDelete={handleDelete}
+        onUpdate={updateProduct}
+        onUpdateSuccess={handleUpdateProductSuccess}
+      ></ProductList>
       {isLoading && <div className="spinner"></div>}
       {hasMore && (
         <button

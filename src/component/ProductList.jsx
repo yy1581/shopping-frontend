@@ -1,3 +1,5 @@
+import { useState } from "react";
+import ProductForm from "./ProductForm";
 import "./ProductList.css";
 
 function formatDate(value) {
@@ -15,10 +17,11 @@ const CATEGORY_MAP = {
   KITCHENWARE: "주방용품",
 };
 
-function ProductItem({ product, onDelete }) {
+function ProductItem({ product, onDelete, onEdit }) {
   const { id, name, description, price, stock, createdAt, category } = product;
 
   const handleDeleteClick = () => onDelete(id);
+  const handleEditClick = () => onEdit(id);
 
   return (
     <li className="product-card">
@@ -34,20 +37,58 @@ function ProductItem({ product, onDelete }) {
         <span className="product-price">{price.toLocaleString()}원</span>
         <span className="product-stock">재고: {stock}개</span>
       </div>
-      <button className="product-delete" onClick={handleDeleteClick}>
-        삭제
-      </button>
+      <div className="product-actions">
+        <button className="product-edit" onClick={handleEditClick}>
+          수정
+        </button>
+        <button className="product-delete" onClick={handleDeleteClick}>
+          삭제
+        </button>
+      </div>
     </li>
   );
 }
 
-function ProductList({ products, onDelete }) {
+function ProductList({ products, onDelete, onUpdate, onUpdateSuccess }) {
+  const [editingId, setEditingId] = useState(null);
   if (!Array.isArray(products)) return null;
+
+  const handleCancel = () => {
+    setEditingId(null);
+  };
+
+  const handleSubmit = (productData) => onUpdate(productData.id, productData);
+
+  const handleSubmitSuccess = (updatedProduct) => {
+    onUpdateSuccess(updatedProduct);
+    setEditingId(null);
+  };
+
   return (
     <ul className="product-list">
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} onDelete={onDelete} />
-      ))}
+      {products.map((product) => {
+        if (product.id === editingId) {
+          return (
+            <ProductForm
+              key={product.id}
+              product={product}
+              onDelete={onDelete}
+              initialValues={product}
+              onSubmit={handleSubmit}
+              onSubmitSuccess={handleSubmitSuccess}
+              onCancel={handleCancel}
+            />
+          );
+        }
+        return (
+          <ProductItem
+            key={product.id}
+            product={product}
+            onDelete={onDelete}
+            onEdit={setEditingId}
+          />
+        );
+      })}
     </ul>
   );
 }

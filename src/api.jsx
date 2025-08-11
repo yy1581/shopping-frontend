@@ -30,3 +30,20 @@ export async function createProduct(productData) {
   const body = await response.json();
   return body;
 }
+
+export async function updateProduct(id, productData) {
+  const { name, description, price, stock, category } = productData;
+  const updatedData = { name, description, price, stock, category };
+  const response = await fetch(`${BACKEND_URL}/products/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(updatedData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("상품을 수정하는데 실패했습니다.");
+  }
+  const body = await response.json();
+  return body;
+}

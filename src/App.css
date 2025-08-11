@@ -45,27 +45,17 @@ input[name="search"]:focus {
   border-color: #1976d2;
 }
 
-button {
+button.search-btn {
   background: #1976d2;
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 8px 18px;
+  padding: 8px 16px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
-
-button:disabled {
-  background: #b0b8c1;
-  cursor: not-allowed;
-}
-
-button:not(:last-child) {
-  margin-right: 8px;
-}
-
-button:hover:not(:disabled) {
+button.search-btn:hover {
   background: #1565c0;
 }
 
@@ -90,7 +80,6 @@ button:hover:not(:disabled) {
 .active-btn.active {
   background: #1976d2;
   color: #fff;
-  border: 1px solid #1976d2;
 }
 
 /* 더 보기 버튼 */
@@ -145,4 +134,19 @@ span {
 .product-form-container.open {
   max-height: 1000px;
   opacity: 1;
+}
+
+.load-more {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.load-more:hover {
+  background: #1565c0;
 }
