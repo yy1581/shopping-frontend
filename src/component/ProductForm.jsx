@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ProductForm.css";
+import useAsync from "../hooks/useAsync";
 
 const INITIAL_VALUES = {
   name: "",
@@ -16,8 +17,7 @@ function ProductForm({
   onCancel,
 }) {
   const [values, setValues] = useState(initialValues);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
+  const [isSubmitting, submitError, onSubmitAsync] = useAsync(onSubmit);
 
   // 문자열을 숫자로 변환하는 함수
   function sanitize(type, value) {
@@ -46,17 +46,9 @@ function ProductForm({
       stock: Number(values.stock),
     };
 
-    let createdProduct;
-    try {
-      setIsSubmitting(true);
-      setSubmitError(null);
-      createdProduct = await onSubmit(newProduct);
-    } catch (e) {
-      setSubmitError(e.message);
-      return;
-    } finally {
-      setIsSubmitting(false);
-    }
+    const createdProduct = await onSubmitAsync(newProduct);
+    if (!createdProduct) return;
+
     onSubmitSuccess(createdProduct);
     setValues(INITIAL_VALUES);
   };

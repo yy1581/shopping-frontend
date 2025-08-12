@@ -8,6 +8,7 @@ import {
 } from "./api";
 import "./App.css";
 import ProductForm from "./component/ProductForm";
+import useAsync from "./hooks/useAsync";
 
 const LIMIT = 6;
 
@@ -16,8 +17,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingError, setLoadingError] = useState(null);
+  const [isLoading, loadingError, getProductsAsync] = useAsync(getProducts);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
 
@@ -26,17 +26,9 @@ function App() {
   const handleCheapestClick = () => setOrder("priceLowest");
 
   const handleLoad = async (options) => {
-    let newProducts;
-    try {
-      setIsLoading(true);
-      setLoadingError(null);
-      newProducts = await getProducts(options);
-    } catch (e) {
-      setLoadingError(e);
-      return;
-    } finally {
-      setIsLoading(false);
-    }
+    const newProducts = await getProductsAsync(options);
+    if (!newProducts) return;
+
     if (options.offset === 0) {
       setProducts(newProducts);
     } else {
