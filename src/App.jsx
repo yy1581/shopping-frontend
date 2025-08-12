@@ -1,6 +1,11 @@
 import ProductList from "./component/ProductList";
 import { useEffect, useState } from "react";
-import { createProduct, getProducts, updateProduct } from "./api";
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
+} from "./api";
 import "./App.css";
 import ProductForm from "./component/ProductForm";
 
@@ -19,11 +24,6 @@ function App() {
   const handleNewestClick = () => setOrder("newest");
 
   const handleCheapestClick = () => setOrder("priceLowest");
-
-  const handleDelete = async (id) => {
-    const nextProducts = products.filter((product) => product.id !== id);
-    setProducts(nextProducts);
-  };
 
   const handleLoad = async (options) => {
     let newProducts;
@@ -77,6 +77,14 @@ function App() {
     });
   };
 
+  const handleDeleteProduct = async (id) => {
+    const result = await deleteProduct(id);
+
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => id !== product.id)
+    );
+  };
+
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT, search });
   }, [order, search]);
@@ -120,7 +128,7 @@ function App() {
 
       <ProductList
         products={products}
-        onDelete={handleDelete}
+        onDelete={handleDeleteProduct}
         onUpdate={updateProduct}
         onUpdateSuccess={handleUpdateProductSuccess}
       ></ProductList>

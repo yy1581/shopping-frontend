@@ -47,3 +47,12 @@ export async function updateProduct(id, productData) {
   const body = await response.json();
   return body;
 }
+
+export async function deleteProduct(id) {
+  const response = await fetch(`${BACKEND_URL}/products/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("상품을 삭제하는데 실패했습니다.");
+  }
+}
