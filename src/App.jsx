@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import ProductForm from "./component/ProductForm";
 import useAsync from "./hooks/useAsync";
+import Header from "./component/Header";
 
 const LIMIT = 6;
 
@@ -89,61 +90,64 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={handleSearchSubmit}>
-        <input name="search" placeholder="검색어를 입력하세요" />
-        <button className="search-btn" type="submit">
-          검색
-        </button>
-      </form>
+      <Header />
+      <div className="body">
+        <form onSubmit={handleSearchSubmit}>
+          <input name="search" placeholder="검색어를 입력하세요" />
+          <button className="search-btn" type="submit">
+            검색
+          </button>
+        </form>
 
-      <button
-        className={`active-btn${showForm ? " active" : ""}`}
-        onClick={handleAddProductClick}
-      >
-        상품 등록
-      </button>
-      <div className={`product-form-container${showForm ? " open" : ""}`}>
-        <ProductForm
-          onSubmit={createProduct}
-          onSubmitSuccess={handleCreateProductSuccess}
-        />
+        <button
+          className={`active-btn${showForm ? " active" : ""}`}
+          onClick={handleAddProductClick}
+        >
+          상품 등록
+        </button>
+        <div className={`product-form-container${showForm ? " open" : ""}`}>
+          <ProductForm
+            onSubmit={createProduct}
+            onSubmitSuccess={handleCreateProductSuccess}
+          />
+        </div>
+
+        <div className="order-buttons">
+          <button
+            className={`active-btn${order === "newest" ? " active" : ""}`}
+            onClick={handleNewestClick}
+          >
+            최신순
+          </button>
+          <button
+            className={`active-btn${order === "priceLowest" ? " active" : ""}`}
+            onClick={handleCheapestClick}
+          >
+            낮은 가격순
+          </button>
+        </div>
+
+        <ProductList
+          products={products}
+          onDelete={handleDeleteProduct}
+          onUpdate={updateProduct}
+          onUpdateSuccess={handleUpdateProductSuccess}
+        ></ProductList>
+        {(isProductsLoading || isDeleting) && <div className="spinner"></div>}
+        {hasMore && (
+          <button
+            className="load-more"
+            onClick={handleLoadMore}
+            disabled={isProductsLoading}
+          >
+            더 보기
+          </button>
+        )}
+        {productsLoadingError?.message && (
+          <span>{productsLoadingError.message}</span>
+        )}
+        {deletingError?.message && <span>{deletingError.message}</span>}
       </div>
-
-      <div className="order-buttons">
-        <button
-          className={`active-btn${order === "newest" ? " active" : ""}`}
-          onClick={handleNewestClick}
-        >
-          최신순
-        </button>
-        <button
-          className={`active-btn${order === "priceLowest" ? " active" : ""}`}
-          onClick={handleCheapestClick}
-        >
-          낮은 가격순
-        </button>
-      </div>
-
-      <ProductList
-        products={products}
-        onDelete={handleDeleteProduct}
-        onUpdate={updateProduct}
-        onUpdateSuccess={handleUpdateProductSuccess}
-      ></ProductList>
-      {(isProductsLoading || isDeleting) && <div className="spinner"></div>}
-      {hasMore && (
-        <button
-          className="load-more"
-          onClick={handleLoadMore}
-          disabled={isProductsLoading}
-        >
-          더 보기
-        </button>
-      )}
-      {productsLoadingError?.message && (
-        <span>{productsLoadingError.message}</span>
-      )}
-      {deletingError?.message && <span>{deletingError.message}</span>}
     </div>
   );
 }

@@ -6,7 +6,8 @@ body {
   padding: 0;
 }
 
-.App {
+/* 메인 바디 */
+.body {
   max-width: 800px;
   margin: 40px auto;
   background: #fff;
