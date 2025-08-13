@@ -1,5 +1,5 @@
 import ProductList from "./component/ProductList";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   createProduct,
   deleteProduct,
@@ -17,7 +17,10 @@ function App() {
   const [products, setProducts] = useState([]);
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [isLoading, loadingError, getProductsAsync] = useAsync(getProducts);
+  const [isProductsLoading, productsLoadingError, getProductsAsync] =
+    useAsync(getProducts);
+  const [isDeleting, deletingError, deleteProductAsync] =
+    useAsync(deleteProduct);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
 
@@ -25,18 +28,22 @@ function App() {
 
   const handleCheapestClick = () => setOrder("priceLowest");
 
-  const handleLoad = async (options) => {
-    const newProducts = await getProductsAsync(options);
-    if (!newProducts) return;
+  // 재렌더링 되지 않도록 useCallback을 사용하여 handleLoad 함수를 메모이제이션
+  const handleLoad = useCallback(
+    async (options) => {
+      const newProducts = await getProductsAsync(options);
+      if (!newProducts) return;
 
-    if (options.offset === 0) {
-      setProducts(newProducts);
-    } else {
-      setProducts((prevProducts) => [...prevProducts, ...newProducts]);
-    }
-    setOffset(options.offset + newProducts.length);
-    setHasMore(newProducts.length === LIMIT);
-  };
+      if (options.offset === 0) {
+        setProducts(newProducts);
+      } else {
+        setProducts((prevProducts) => [...prevProducts, ...newProducts]);
+      }
+      setOffset(options.offset + newProducts.length);
+      setHasMore(newProducts.length === LIMIT);
+    },
+    [getProductsAsync]
+  );
 
   const handleLoadMore = () => {
     handleLoad({ order, offset, limit: LIMIT, search });
@@ -70,16 +77,15 @@ function App() {
   };
 
   const handleDeleteProduct = async (id) => {
-    const result = await deleteProduct(id);
+    const result = await deleteProductAsync(id);
+    if (!result) return;
 
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => id !== product.id)
-    );
+    setProducts((prevProducts) => prevProducts.filter((p) => p.id !== id));
   };
 
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT, search });
-  }, [order, search]);
+  }, [order, search, handleLoad]);
 
   return (
     <div className="App">
@@ -124,17 +130,20 @@ function App() {
         onUpdate={updateProduct}
         onUpdateSuccess={handleUpdateProductSuccess}
       ></ProductList>
-      {isLoading && <div className="spinner"></div>}
+      {(isProductsLoading || isDeleting) && <div className="spinner"></div>}
       {hasMore && (
         <button
           className="load-more"
           onClick={handleLoadMore}
-          disabled={isLoading}
+          disabled={isProductsLoading}
         >
           더 보기
         </button>
       )}
-      {loadingError?.message && <span>{loadingError.message}</span>}
+      {productsLoadingError?.message && (
+        <span>{productsLoadingError.message}</span>
+      )}
+      {deletingError?.message && <span>{deletingError.message}</span>}
     </div>
   );
 }
