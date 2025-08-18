@@ -1,6 +1,6 @@
 import { useLocale } from "../contexts/LocaleContext";
-import ko from "../../public/locale/ko.json";
-import en from "../../public/locale/en.json";
+import ko from "../locale/ko.json";
+import en from "../locale/en.json";
 
 const dict = { ko, en };
 
