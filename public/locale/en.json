@@ -1,0 +1,18 @@
+{
+  "confirm button": "Confirm",
+  "cancel button": "Cancel",
+  "edit button": "Edit",
+  "delete button": "Delete",
+  "stock": "Stock",
+  "won": "Won",
+  "search button": "Search",
+  "product name": "Product Name",
+  "product description": "Product Description",
+  "product price": "Product Price",
+  "product stock": "Product Stock",
+  "product category": "Product Category",
+  "product registration": "Product Registration",
+  "order newest": "Order Newest",
+  "order cheapest": "Order Cheapest",
+  "load more": "Load More"
+}

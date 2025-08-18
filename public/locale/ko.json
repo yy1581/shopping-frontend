@@ -1,0 +1,18 @@
+{
+  "confirm button": "확인",
+  "cancel button": "취소",
+  "edit button": "수정",
+  "delete button": "삭제",
+  "stock": "재고",
+  "won": "원",
+  "search button": "검색",
+  "product name": "상품명",
+  "product description": "상품 설명",
+  "product price": "상품 가격",
+  "product stock": "상품 재고",
+  "product category": "상품 카테고리",
+  "product registration": "상품 등록",
+  "order newest": "최신순",
+  "order cheapest": "낮은 가격순",
+  "load more": "더 보기"
+}

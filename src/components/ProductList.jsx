@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductForm from "./ProductForm";
 import "./ProductList.css";
+import useTranslate from "../hooks/useTranslate";
 
 function formatDate(value) {
   const date = new Date(value);
@@ -18,6 +19,7 @@ const CATEGORY_MAP = {
 };
 
 function ProductItem({ product, onDelete, onEdit }) {
+  const t = useTranslate();
   const { id, name, description, price, stock, createdAt, category } = product;
 
   const handleDeleteClick = () => onDelete(id);
@@ -34,15 +36,19 @@ function ProductItem({ product, onDelete, onEdit }) {
       <div className="product-date">{formatDate(createdAt)}</div>
       <div className="product-desc">{description}</div>
       <div className="product-info">
-        <span className="product-price">{price.toLocaleString()}원</span>
-        <span className="product-stock">재고: {stock}개</span>
+        <span className="product-price">
+          {`${price.toLocaleString()} ${t("won")}`}
+        </span>
+        <span className="product-stock">
+          {t("stock")}: {stock}
+        </span>
       </div>
       <div className="product-actions">
         <button className="product-edit" onClick={handleEditClick}>
-          수정
+          {t("edit button")}
         </button>
         <button className="product-delete" onClick={handleDeleteClick}>
-          삭제
+          {t("delete button")}
         </button>
       </div>
     </li>

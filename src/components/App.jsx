@@ -10,12 +10,13 @@ import "./App.css";
 import ProductForm from "./ProductForm";
 import useAsync from "../hooks/useAsync";
 import Header from "./Header";
-import LocaleContext from "../contexts/LocaleContext";
+import useTranslate from "../hooks/useTranslate";
 
 // LIMIT개씩 불러오기
 const LIMIT = 6;
 
 function App() {
+  const t = useTranslate();
   const [order, setOrder] = useState("newest");
   const [products, setProducts] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -91,70 +92,66 @@ function App() {
   }, [order, search, handleLoad]);
 
   return (
-    <LocaleContext.Provider value={"ko"}>
-      <div className="App">
-        <Header />
-        <div className="body">
-          <form onSubmit={handleSearchSubmit}>
-            <input name="search" placeholder="검색어를 입력하세요" />
-            <button className="search-btn" type="submit">
-              검색
-            </button>
-          </form>
-
-          <button
-            className={`active-btn${showForm ? " active" : ""}`}
-            onClick={handleAddProductClick}
-          >
-            상품 등록
+    <div className="App">
+      <Header />
+      <div className="body">
+        <form onSubmit={handleSearchSubmit}>
+          <input name="search" placeholder="검색어를 입력하세요" />
+          <button className="search-btn" type="submit">
+            {t("search button")}
           </button>
-          <div className={`product-form-container${showForm ? " open" : ""}`}>
-            <ProductForm
-              onSubmit={createProduct}
-              onSubmitSuccess={handleCreateProductSuccess}
-            />
-          </div>
+        </form>
 
-          <div className="order-buttons">
-            <button
-              className={`active-btn${order === "newest" ? " active" : ""}`}
-              onClick={handleNewestClick}
-            >
-              최신순
-            </button>
-            <button
-              className={`active-btn${
-                order === "priceLowest" ? " active" : ""
-              }`}
-              onClick={handleCheapestClick}
-            >
-              낮은 가격순
-            </button>
-          </div>
-
-          <ProductList
-            products={products}
-            onDelete={handleDeleteProduct}
-            onUpdate={updateProduct}
-            onUpdateSuccess={handleUpdateProductSuccess}
-          ></ProductList>
-          {(isProductsLoading || isDeleting) && <div className="spinner"></div>}
-          {hasMore && (
-            <button
-              className="load-more"
-              onClick={handleLoadMore}
-              disabled={isProductsLoading}
-            >
-              더 보기
-            </button>
-          )}
-          {productsLoadingError?.message && (
-            <span>{productsLoadingError.message}</span>
-          )}
-          {deletingError?.message && <span>{deletingError.message}</span>}
+        <button
+          className={`active-btn${showForm ? " active" : ""}`}
+          onClick={handleAddProductClick}
+        >
+          {t("product registration")}
+        </button>
+        <div className={`product-form-container${showForm ? " open" : ""}`}>
+          <ProductForm
+            onSubmit={createProduct}
+            onSubmitSuccess={handleCreateProductSuccess}
+          />
         </div>
+
+        <div className="order-buttons">
+          <button
+            className={`active-btn${order === "newest" ? " active" : ""}`}
+            onClick={handleNewestClick}
+          >
+            {t("order newest")}
+          </button>
+          <button
+            className={`active-btn${order === "priceLowest" ? " active" : ""}`}
+            onClick={handleCheapestClick}
+          >
+            {t("order cheapest")}
+          </button>
+        </div>
+
+        <ProductList
+          products={products}
+          onDelete={handleDeleteProduct}
+          onUpdate={updateProduct}
+          onUpdateSuccess={handleUpdateProductSuccess}
+        ></ProductList>
+        {(isProductsLoading || isDeleting) && <div className="spinner"></div>}
+        {hasMore && (
+          <button
+            className="load-more"
+            onClick={handleLoadMore}
+            disabled={isProductsLoading}
+          >
+            {t("load more")}
+          </button>
+        )}
+        {productsLoadingError?.message && (
+          <span>{productsLoadingError.message}</span>
+        )}
+        {deletingError?.message && <span>{deletingError.message}</span>}
       </div>
-    </LocaleContext.Provider>
+    </div>
   );
 }
 

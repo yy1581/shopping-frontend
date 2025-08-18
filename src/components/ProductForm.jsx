@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./ProductForm.css";
 import useAsync from "../hooks/useAsync";
+import useTranslate from "../hooks/useTranslate";
 
 const INITIAL_VALUES = {
   name: "",
@@ -16,6 +17,7 @@ function ProductForm({
   onSubmit,
   onCancel,
 }) {
+  const t = useTranslate();
   const [values, setValues] = useState(initialValues);
   const [isSubmitting, submitError, onSubmitAsync] = useAsync(onSubmit);
 
@@ -57,7 +59,7 @@ function ProductForm({
     <form className="product-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="name">상품명</label>
+          <label htmlFor="name">{t("product name")}</label>
           <input
             id="name"
             name="name"
@@ -69,7 +71,7 @@ function ProductForm({
           />
         </div>
         <div className="form-group">
-          <label htmlFor="category">카테고리</label>
+          <label htmlFor="category">{t("product category")}</label>
           <select
             id="category"
             name="category"
@@ -91,7 +93,7 @@ function ProductForm({
         </div>
       </div>
       <div className="form-group">
-        <label htmlFor="description">상품 설명</label>
+        <label htmlFor="description">{t("product description")}</label>
         <textarea
           id="description"
           name="description"
@@ -103,7 +105,7 @@ function ProductForm({
       </div>
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="price">가격(원)</label>
+          <label htmlFor="price">{t("product price")}</label>
           <input
             id="price"
             name="price"
@@ -116,7 +118,7 @@ function ProductForm({
           />
         </div>
         <div className="form-group">
-          <label htmlFor="stock">재고(개)</label>
+          <label htmlFor="stock">{t("product stock")}</label>
           <input
             id="stock"
             name="stock"
@@ -132,11 +134,11 @@ function ProductForm({
       <div className="form-actions">
         {onCancel && (
           <button type="button" className="cancel-button" onClick={onCancel}>
-            취소
+            {t("cancel button")}
           </button>
         )}
         <button type="submit" className="submit-button" disabled={isSubmitting}>
-          등록
+          {t("confirm button")}
         </button>
       </div>
       {submitError?.message && (
