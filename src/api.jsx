@@ -16,6 +16,15 @@ export async function getProducts({
   return body;
 }
 
+export async function getProduct(id) {
+  const response = await fetch(`${BACKEND_URL}/products/${id}`);
+  if (!response.ok) {
+    throw new Error("상품을 불러오는데 실패했습니다.");
+  }
+  const body = await response.json();
+  return body;
+}
+
 export async function createProduct(productData) {
   const response = await fetch(`${BACKEND_URL}/products`, {
     method: "POST",

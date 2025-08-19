@@ -1,19 +1,20 @@
-import { useState, createContext, useContext } from "react";
+import { createContext, useState, useContext } from "react";
 
 const LocaleContext = createContext();
 
-export function LocaleProvider({ defaultValue = "ko", children }) {
+export function LocaleProvider({ defaultValue, children }) {
   const [locale, setLocale] = useState(defaultValue);
-
   return (
-    <LocaleContext value={{ locale, setLocale }}>{children}</LocaleContext>
+    <LocaleContext.Provider value={{ locale, setLocale }}>
+      {children}
+    </LocaleContext.Provider>
   );
 }
 
 export function useLocale() {
   const context = useContext(LocaleContext);
   if (!context) {
-    throw new Error("useLocale은 LocaleProvider 안에서 사용해야 합니다");
+    throw new Error("Cannot find LocaleProvider");
   }
   return context.locale;
 }
@@ -21,7 +22,7 @@ export function useLocale() {
 export function useSetLocale() {
   const context = useContext(LocaleContext);
   if (!context) {
-    throw new Error("useSetLocale은 LocaleProvider 안에서 사용해야 합니다");
+    throw new Error("Cannot find LocaleProvider");
   }
   return context.setLocale;
 }

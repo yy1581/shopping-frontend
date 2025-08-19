@@ -14,5 +14,21 @@
   "product registration": "상품 등록",
   "order newest": "최신순",
   "order cheapest": "낮은 가격순",
-  "load more": "더 보기"
+  "load more": "더 보기",
+  "products": "상품",
+  "my wishlist": "마이페이지",
+  "Your wishlist is empty.": "위시리스트가 비어 있습니다.",
+  "welcome to ymazon": "Ymazon에 오신 것을 환영합니다!",
+  "your one stop shop for everything": "모든 것을 위한 원스톱 샵",
+  "browse products": "상품 둘러보기",
+  "add to cart": "장바구니에 담기",
+  "back to list": "목록으로 돌아가기",
+  "product not found": "상품을 찾을 수 없습니다.",
+  "FASHION": "패션",
+  "BEAUTY": "뷰티",
+  "SPORTS": "스포츠",
+  "ELECTRONICS": "전자제품",
+  "HOME_INTERIOR": "홈인테리어",
+  "HOUSEHOLD_SUPPLIES": "생활용품",
+  "KITCHENWARE": "주방용품"
 }

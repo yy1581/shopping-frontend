@@ -14,5 +14,18 @@
   "product registration": "Product Registration",
   "order newest": "Order Newest",
   "order cheapest": "Order Cheapest",
-  "load more": "Load More"
+  "load more": "Load More",
+  "products": "Products",
+  "my wishlist": "My Page",
+  "Your wishlist is empty.": "Your wishlist is empty.",
+  "add to cart": "Add to Cart",
+  "back to list": "Back to List",
+  "product not found": "Product not found.",
+  "FASHION": "Fashion",
+  "BEAUTY": "Beauty",
+  "SPORTS": "Sports",
+  "ELECTRONICS": "Electronics",
+  "HOME_INTERIOR": "Home Interior",
+  "HOUSEHOLD_SUPPLIES": "Household Supplies",
+  "KITCHENWARE": "Kitchenware"
 }

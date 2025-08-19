@@ -1,0 +1,96 @@
+.userMenu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.iconButton:hover {
+  background-color: #f0f0f0;
+}
+
+.iconButton:focus-visible {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.3);
+}
+
+.iconButton img {
+  width: 28px;
+  height: 28px;
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  min-width: 180px;
+  z-index: 1001;
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.popup.open {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.popup::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  border-width: 0 8px 10px 8px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+  z-index: 1;
+}
+
+.popup::after {
+  content: "";
+  position: absolute;
+  top: -11px;
+  right: 12px;
+  border-width: 0 8px 10px 8px;
+  border-style: solid;
+  border-color: transparent transparent #e0e0e0 transparent;
+}
+
+.popup li a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.popup li a:hover {
+  background-color: #f5f5f5;
+}
+
+.popup li.disabled {
+  padding: 10px 20px;
+  color: #aaa;
+  cursor: not-allowed;
+}
