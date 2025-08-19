@@ -33,16 +33,11 @@ function ProductPage() {
   }
 
   if (productLoadingError) {
-    return (
-      <div className="App">
-        <div className="error-message">{productLoadingError.message}</div>
-      </div>
-    );
+    return <Navigate to="/products" />;
   }
 
-  // 없는 상품은 리다이렉트
   if (!product) {
-    return <Navigate to="/products" />;
+    return null;
   }
 
   const { name, description, price, stock, category, photoUrl } = product;

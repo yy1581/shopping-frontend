@@ -52,7 +52,6 @@ function ProductForm({
     if (!createdProduct) return;
 
     onSubmitSuccess(createdProduct);
-    setValues(INITIAL_VALUES);
   };
 
   return (
