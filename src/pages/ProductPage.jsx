@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProduct } from "../api";
-import Header from "../components/Header";
 import useAsync from "../hooks/useAsync";
 import useTranslate from "../hooks/useTranslate";
 import "./ProductPage.css";
@@ -26,7 +25,6 @@ function ProductPage() {
   if (isProductLoading) {
     return (
       <div className="App">
-        <Header />
         <div className="spinner-container">
           <div className="spinner"></div>
         </div>
@@ -37,7 +35,6 @@ function ProductPage() {
   if (productLoadingError) {
     return (
       <div className="App">
-        <Header />
         <div className="error-message">{productLoadingError.message}</div>
       </div>
     );
@@ -46,7 +43,6 @@ function ProductPage() {
   if (!product) {
     return (
       <div className="App">
-        <Header />
         <div className="error-message">{t("product not found")}</div>
       </div>
     );
@@ -56,7 +52,6 @@ function ProductPage() {
 
   return (
     <div className="App">
-      <Header />
       <div className="product-page-container">
         <div className="product-image-container">
           <img src={photoUrl} alt={name} className="product-image" />

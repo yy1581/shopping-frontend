@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
 import useTranslate from "../hooks/useTranslate";
 import "./HomePage.css";
 
@@ -8,7 +7,6 @@ function HomePage() {
 
   return (
     <div className="App">
-      <Header />
       <div className="home-body">
         <h1 className="home-title">{t("welcome to ymazon")}</h1>
         <p className="home-subtitle">

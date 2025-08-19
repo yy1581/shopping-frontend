@@ -9,7 +9,6 @@ import {
 import "./ProductListPage.css";
 import ProductForm from "../components/ProductForm";
 import useAsync from "../hooks/useAsync";
-import Header from "../components/Header";
 import useTranslate from "../hooks/useTranslate";
 
 // LIMIT개씩 불러오기
@@ -93,7 +92,6 @@ function ProductListPage() {
 
   return (
     <div className="App">
-      <Header />
       <div className="body">
         <form onSubmit={handleSearchSubmit}>
           <input name="search" placeholder="검색어를 입력하세요" />

@@ -3,16 +3,23 @@ import HomePage from "./pages/HomePage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductPage from "./pages/ProductPage";
 import WishListPage from "./pages/WishListPage";
+import App from "./components/App";
 
 function Main() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductListPage />} />
-        <Route path="/products/:id" element={<ProductPage />} />
-        <Route path="/wishlist" element={<WishListPage />} />
-      </Routes>
+      <App>
+        <Routes>
+          <Route path="/">
+            <Route index element={<HomePage />} />
+            <Route path="products">
+              <Route index element={<ProductListPage />} />
+              <Route path=":id" element={<ProductPage />} />
+            </Route>
+            <Route path="wishlist" element={<WishListPage />} />
+          </Route>
+        </Routes>
+      </App>
     </BrowserRouter>
   );
 }

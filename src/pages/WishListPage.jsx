@@ -1,4 +1,3 @@
-import Header from "../components/Header";
 import useTranslate from "../hooks/useTranslate";
 import "./WishListPage.css";
 
@@ -7,7 +6,6 @@ function WishListPage() {
 
   return (
     <div className="App">
-      <Header />
       <div className="wishlist-body">
         <h1 className="wishlist-title">{t("my wishlist")}</h1>
         <p className="wishlist-empty">{t("Your wishlist is empty.")}</p>
