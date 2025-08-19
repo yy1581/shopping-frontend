@@ -1,4 +1,4 @@
-.App-header {
+.appHeader {
   background-color: #ffffff;
   padding: 16px 0;
   border-bottom: 1px solid #e0e0e0;
@@ -11,7 +11,7 @@
   margin-bottom: 24px;
 }
 
-.header-content {
+.headerContent {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 24px;
@@ -21,7 +21,7 @@
   gap: 16px;
 }
 
-.header-title {
+.headerTitle {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 800;
@@ -29,17 +29,17 @@
   cursor: pointer;
 }
 
-.logo-link {
+.logoLink {
   text-decoration: none;
 }
 
-.header-nav {
+.headerNav {
   display: flex;
   align-items: center;
   gap: 24px;
 }
 
-.header-nav-link {
+.headerNavLink {
   text-decoration: none;
   color: #555;
   font-size: 1rem;
@@ -49,11 +49,11 @@
   transition: color 0.2s, border-bottom-color 0.2s;
 }
 
-.header-nav-link:hover {
+.headerNavLink:hover {
   color: #1976d2;
 }
 
-.header-nav-link.active {
+.headerNavLink.active {
   color: #1976d2;
   border-bottom-color: #1976d2;
 }

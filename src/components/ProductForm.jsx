@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./ProductForm.css";
+import styles from "./ProductForm.module.css";
 import useAsync from "../hooks/useAsync";
 import useTranslate from "../hooks/useTranslate";
 
@@ -56,9 +56,9 @@ function ProductForm({
   };
 
   return (
-    <form className="product-form" onSubmit={handleSubmit}>
-      <div className="form-row">
-        <div className="form-group">
+    <form className={styles.productForm} onSubmit={handleSubmit}>
+      <div className={styles.formRow}>
+        <div className={styles.formGroup}>
           <label htmlFor="name">{t("product name")}</label>
           <input
             id="name"
@@ -70,7 +70,7 @@ function ProductForm({
             required
           />
         </div>
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="category">{t("product category")}</label>
           <select
             id="category"
@@ -92,7 +92,7 @@ function ProductForm({
           </select>
         </div>
       </div>
-      <div className="form-group">
+      <div className={styles.formGroup}>
         <label htmlFor="description">{t("product description")}</label>
         <textarea
           id="description"
@@ -103,8 +103,8 @@ function ProductForm({
           rows="5"
         />
       </div>
-      <div className="form-row">
-        <div className="form-group">
+      <div className={styles.formRow}>
+        <div className={styles.formGroup}>
           <label htmlFor="price">{t("product price")}</label>
           <input
             id="price"
@@ -117,7 +117,7 @@ function ProductForm({
             required
           />
         </div>
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="stock">{t("product stock")}</label>
           <input
             id="stock"
@@ -131,18 +131,26 @@ function ProductForm({
           />
         </div>
       </div>
-      <div className="form-actions">
+      <div className={styles.formActions}>
         {onCancel && (
-          <button type="button" className="cancel-button" onClick={onCancel}>
+          <button
+            type="button"
+            className={styles.cancelButton}
+            onClick={onCancel}
+          >
             {t("cancel button")}
           </button>
         )}
-        <button type="submit" className="submit-button" disabled={isSubmitting}>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+        >
           {t("confirm button")}
         </button>
       </div>
       {submitError?.message && (
-        <div className="error-message">{submitError}</div>
+        <div className={styles.errorMessage}>{submitError.message}</div>
       )}
     </form>
   );

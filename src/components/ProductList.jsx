@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ProductForm from "./ProductForm";
-import "./ProductList.css";
+import styles from "./ProductList.module.css";
 import useTranslate from "../hooks/useTranslate";
 import { Link } from "react-router-dom";
 
@@ -16,20 +16,20 @@ function ProductItem({ product, onDelete, onEdit }) {
   const handleDeleteClick = () => onDelete(id);
   const handleEditClick = () => onEdit(id);
   return (
-    <li className="product-item">
-      <Link to={`/products/${id}`} className="product-item-link">
-        <span className="product-name">{name}</span>
+    <li className={styles.productItem}>
+      <Link to={`/products/${id}`} className={styles.productItemLink}>
+        <span className={styles.productName}>{name}</span>
       </Link>
-      <div className="product-category">{t(category) || category}</div>
-      <div className="product-price">{`${price.toLocaleString()} ${t(
+      <div className={styles.productCategory}>{t(category) || category}</div>
+      <div className={styles.productPrice}>{`${price.toLocaleString()} ${t(
         "won"
       )}`}</div>
-      <div className="product-date">{formatDate(createdAt)}</div>
-      <div className="product-actions">
-        <button className="product-edit" onClick={handleEditClick}>
+      <div className={styles.productDate}>{formatDate(createdAt)}</div>
+      <div className={styles.productActions}>
+        <button className={styles.productEdit} onClick={handleEditClick}>
           {t("edit button")}
         </button>
-        <button className="product-delete" onClick={handleDeleteClick}>
+        <button className={styles.productDelete} onClick={handleDeleteClick}>
           {t("delete button")}
         </button>
       </div>
@@ -53,11 +53,11 @@ function ProductList({ products, onDelete, onUpdate, onUpdateSuccess }) {
   };
 
   return (
-    <ul className="product-list">
+    <ul className={styles.productList}>
       {products.map((product) => {
         if (product.id === editingId) {
           return (
-            <li key={product.id} className="product-form-item">
+            <li key={product.id} className={styles.productFormItem}>
               <ProductForm
                 initialValues={product}
                 onSubmit={handleSubmit}

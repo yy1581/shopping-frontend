@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import LocaleSelector from "./LocaleSelector";
-import "./Header.css";
+import styles from "./Header.module.css";
 import useTranslate from "../hooks/useTranslate";
 import UserMenu from "./UserMenu";
 
@@ -8,16 +8,16 @@ function Header() {
   const t = useTranslate();
 
   return (
-    <header className="App-header">
-      <div className="header-content">
-        <Link to="/" className="logo-link">
-          <h1 className="header-title">Ymazon</h1>
+    <header className={styles.appHeader}>
+      <div className={styles.headerContent}>
+        <Link to="/" className={styles.logoLink}>
+          <h1 className={styles.headerTitle}>Ymazon</h1>
         </Link>
-        <nav className="header-nav">
+        <nav className={styles.headerNav}>
           <NavLink
             to="/products"
             className={({ isActive }) =>
-              "header-nav-link" + (isActive ? " active" : "")
+              `${styles.headerNavLink} ${isActive ? styles.active : ""}`
             }
           >
             {t("products")}
@@ -25,7 +25,7 @@ function Header() {
           <NavLink
             to="/wishlist"
             className={({ isActive }) =>
-              "header-nav-link" + (isActive ? " active" : "")
+              `${styles.headerNavLink} ${isActive ? styles.active : ""}`
             }
           >
             {t("my wishlist")}
