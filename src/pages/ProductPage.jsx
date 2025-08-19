@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { getProduct } from "../api";
 import useAsync from "../hooks/useAsync";
 import useTranslate from "../hooks/useTranslate";
@@ -40,12 +40,9 @@ function ProductPage() {
     );
   }
 
+  // 없는 상품은 리다이렉트
   if (!product) {
-    return (
-      <div className="App">
-        <div className="error-message">{t("product not found")}</div>
-      </div>
-    );
+    return <Navigate to="/products" />;
   }
 
   const { name, description, price, stock, category, photoUrl } = product;

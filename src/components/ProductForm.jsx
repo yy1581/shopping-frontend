@@ -11,32 +11,32 @@ const INITIAL_VALUES = {
   category: "",
 };
 
+const CATEGORIES = [
+  "FASHION",
+  "BEAUTY",
+  "SPORTS",
+  "ELECTRONICS",
+  "HOME_INTERIOR",
+  "HOUSEHOLD_SUPPLIES",
+  "KITCHENWARE",
+];
+
 function ProductForm({
   initialValues = INITIAL_VALUES,
   onSubmitSuccess,
   onSubmit,
   onCancel,
+  title,
 }) {
   const t = useTranslate();
   const [values, setValues] = useState(initialValues);
   const [isSubmitting, submitError, onSubmitAsync] = useAsync(onSubmit);
 
-  // 문자열을 숫자로 변환하는 함수
-  function sanitize(type, value) {
-    switch (type) {
-      case "number":
-        return Number(value) || 0;
-
-      default:
-        return value;
-    }
-  }
-
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: sanitize(type, value),
+      [name]: value,
     }));
   };
 
@@ -44,8 +44,8 @@ function ProductForm({
     e.preventDefault();
     const newProduct = {
       ...values,
-      price: Number(values.price),
-      stock: Number(values.stock),
+      price: Number(values.price) || 0,
+      stock: Number(values.stock) || 0,
     };
 
     const createdProduct = await onSubmitAsync(newProduct);
@@ -57,6 +57,7 @@ function ProductForm({
 
   return (
     <form className={styles.productForm} onSubmit={handleSubmit}>
+      {title && <h2 className={styles.formTitle}>{title}</h2>}
       <div className={styles.formRow}>
         <div className={styles.formGroup}>
           <label htmlFor="name">{t("product name")}</label>
@@ -64,7 +65,7 @@ function ProductForm({
             id="name"
             name="name"
             type="text"
-            placeholder="상품명을 입력하세요"
+            placeholder={t("product name placeholder")}
             value={values.name}
             onChange={handleChange}
             required
@@ -80,15 +81,13 @@ function ProductForm({
             required
           >
             <option value="" disabled>
-              카테고리를 선택하세요
+              {t("product category placeholder")}
             </option>
-            <option value="FASHION">패션</option>
-            <option value="BEAUTY">뷰티</option>
-            <option value="SPORTS">스포츠</option>
-            <option value="ELECTRONICS">전자제품</option>
-            <option value="HOME_INTERIOR">홈인테리어</option>
-            <option value="HOUSEHOLD_SUPPLIES">생활용품</option>
-            <option value="KITCHENWARE">주방용품</option>
+            {CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {t(category)}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -97,7 +96,7 @@ function ProductForm({
         <textarea
           id="description"
           name="description"
-          placeholder="상품 설명을 입력하세요"
+          placeholder={t("product description placeholder")}
           value={values.description}
           onChange={handleChange}
           rows="5"
@@ -110,7 +109,7 @@ function ProductForm({
             id="price"
             name="price"
             type="number"
-            placeholder="가격을 입력하세요"
+            placeholder={t("product price placeholder")}
             value={values.price}
             onChange={handleChange}
             min="0"
@@ -123,7 +122,7 @@ function ProductForm({
             id="stock"
             name="stock"
             type="number"
-            placeholder="재고 수량을 입력하세요"
+            placeholder={t("product stock placeholder")}
             value={values.stock}
             onChange={handleChange}
             min="0"

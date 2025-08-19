@@ -6,10 +6,11 @@ import {
   getProducts,
   updateProduct,
 } from "../api";
-import "./ProductListPage.css";
-import ProductForm from "../components/ProductForm";
 import useAsync from "../hooks/useAsync";
 import useTranslate from "../hooks/useTranslate";
+import SearchForm from "../components/SearchForm";
+import ProductRegistration from "../components/ProductRegistration";
+import "./ProductListPage.css";
 
 // LIMIT개씩 불러오기
 const LIMIT = 6;
@@ -25,7 +26,6 @@ function ProductListPage() {
   const [isDeleting, deletingError, deleteProductAsync] =
     useAsync(deleteProduct);
   const [search, setSearch] = useState("");
-  const [showForm, setShowForm] = useState(false);
 
   const handleNewestClick = () => setOrder("newest");
 
@@ -52,18 +52,12 @@ function ProductListPage() {
     handleLoad({ order, offset, limit: LIMIT, search });
   };
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    setSearch(e.target["search"].value);
-  };
-
-  const handleAddProductClick = () => {
-    setShowForm((prev) => !prev);
+  const handleSearchSubmit = (newSearch) => {
+    setSearch(newSearch);
   };
 
   const handleCreateProductSuccess = (newProduct) => {
     setProducts((prevProducts) => [newProduct, ...prevProducts]);
-    setShowForm(false);
   };
 
   const handleUpdateProductSuccess = (updatedProduct) => {
@@ -93,35 +87,22 @@ function ProductListPage() {
   return (
     <div className="App">
       <div className="body">
-        <form onSubmit={handleSearchSubmit}>
-          <input name="search" placeholder="검색어를 입력하세요" />
-          <button className="search-btn" type="submit">
-            {t("search button")}
-          </button>
-        </form>
+        <SearchForm onSubmit={handleSearchSubmit} />
 
-        <button
-          className={`active-btn${showForm ? " active" : ""}`}
-          onClick={handleAddProductClick}
-        >
-          {t("product registration")}
-        </button>
-        <div className={`product-form-container${showForm ? " open" : ""}`}>
-          <ProductForm
-            onSubmit={createProduct}
-            onSubmitSuccess={handleCreateProductSuccess}
-          />
-        </div>
+        <ProductRegistration
+          onSubmit={createProduct}
+          onSubmitSuccess={handleCreateProductSuccess}
+        />
 
         <div className="order-buttons">
           <button
-            className={`active-btn${order === "newest" ? " active" : ""}`}
+            className={`order-btn${order === "newest" ? " active" : ""}`}
             onClick={handleNewestClick}
           >
             {t("order newest")}
           </button>
           <button
-            className={`active-btn${order === "priceLowest" ? " active" : ""}`}
+            className={`order-btn${order === "priceLowest" ? " active" : ""}`}
             onClick={handleCheapestClick}
           >
             {t("order cheapest")}

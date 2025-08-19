@@ -27,5 +27,15 @@
   "ELECTRONICS": "Electronics",
   "HOME_INTERIOR": "Home Interior",
   "HOUSEHOLD_SUPPLIES": "Household Supplies",
-  "KITCHENWARE": "Kitchenware"
+  "KITCHENWARE": "Kitchenware",
+  "page not found": "Page not found",
+  "The page you are looking for does not exist or has been moved.": "The page you are looking for does not exist or has been moved.",
+  "go to homepage": "Go to homepage",
+  "search placeholder": "Enter search term",
+  "product name placeholder": "Enter product name",
+  "product category placeholder": "Select a category",
+  "product description placeholder": "Enter product description",
+  "product price placeholder": "Enter price",
+  "product stock placeholder": "Enter stock quantity",
+  "edit product": "Edit Product"
 }

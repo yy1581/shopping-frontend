@@ -38,6 +38,7 @@ function ProductItem({ product, onDelete, onEdit }) {
 }
 
 function ProductList({ products, onDelete, onUpdate, onUpdateSuccess }) {
+  const t = useTranslate();
   const [editingId, setEditingId] = useState(null);
   if (!Array.isArray(products)) return null;
 
@@ -59,6 +60,7 @@ function ProductList({ products, onDelete, onUpdate, onUpdateSuccess }) {
           return (
             <li key={product.id} className={styles.productFormItem}>
               <ProductForm
+                title={t("edit product")}
                 initialValues={product}
                 onSubmit={handleSubmit}
                 onSubmitSuccess={handleSubmitSuccess}
