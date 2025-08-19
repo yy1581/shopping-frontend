@@ -1,4 +1,4 @@
-import ProductList from "./ProductList";
+import ProductList from "../components/ProductList";
 import { useCallback, useEffect, useState } from "react";
 import {
   createProduct,
@@ -6,16 +6,16 @@ import {
   getProducts,
   updateProduct,
 } from "../api";
-import "./App.css";
-import ProductForm from "./ProductForm";
+import "./ProductListPage.css";
+import ProductForm from "../components/ProductForm";
 import useAsync from "../hooks/useAsync";
-import Header from "./Header";
+import Header from "../components/Header";
 import useTranslate from "../hooks/useTranslate";
 
 // LIMIT개씩 불러오기
 const LIMIT = 6;
 
-function App() {
+function ProductListPage() {
   const t = useTranslate();
   const [order, setOrder] = useState("newest");
   const [products, setProducts] = useState([]);
@@ -155,4 +155,4 @@ function App() {
   );
 }
 
-export default App;
+export default ProductListPage;
