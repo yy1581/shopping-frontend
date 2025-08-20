@@ -1,5 +1,6 @@
 import ProductList from "../components/ProductList";
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   createProduct,
   deleteProduct,
@@ -17,7 +18,6 @@ const LIMIT = 6;
 
 function ProductListPage() {
   const t = useTranslate();
-  const [order, setOrder] = useState("newest");
   const [products, setProducts] = useState([]);
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -25,12 +25,18 @@ function ProductListPage() {
     useAsync(getProducts);
   const [isDeleting, deletingError, deleteProductAsync] =
     useAsync(deleteProduct);
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const order = searchParams.get("order") || "newest";
+  const keyword = searchParams.get("keyword") || "";
 
-  const handleNewestClick = () => setOrder("newest");
+  const handleOrderChange = (newOrder) => {
+    searchParams.set("order", newOrder);
+    setSearchParams(searchParams);
+  };
 
-  const handleCheapestClick = () => setOrder("priceLowest");
+  const handleNewestClick = () => handleOrderChange("newest");
 
+  const handleCheapestClick = () => handleOrderChange("priceLowest");
   // 재렌더링 되지 않도록 useCallback을 사용하여 handleLoad 함수를 메모이제이션
   const handleLoad = useCallback(
     async (options) => {
@@ -49,11 +55,7 @@ function ProductListPage() {
   );
 
   const handleLoadMore = () => {
-    handleLoad({ order, offset, limit: LIMIT, search });
-  };
-
-  const handleSearchSubmit = (newSearch) => {
-    setSearch(newSearch);
+    handleLoad({ order, offset, limit: LIMIT, search: keyword });
   };
 
   const handleCreateProductSuccess = (newProduct) => {
@@ -80,14 +82,23 @@ function ProductListPage() {
     setProducts((prevProducts) => prevProducts.filter((p) => p.id !== id));
   };
 
+  const handleSearchSubmit = (newKeyword) => {
+    if (newKeyword) {
+      searchParams.set("keyword", newKeyword);
+    } else {
+      searchParams.delete("keyword");
+    }
+    setSearchParams(searchParams);
+  };
+
   useEffect(() => {
-    handleLoad({ order, offset: 0, limit: LIMIT, search });
-  }, [order, search, handleLoad]);
+    handleLoad({ order, offset: 0, limit: LIMIT, search: keyword });
+  }, [order, keyword, handleLoad]);
 
   return (
     <div className="App">
       <div className="body">
-        <SearchForm onSubmit={handleSearchSubmit} />
+        <SearchForm initialValue={keyword} onSubmit={handleSearchSubmit} />
 
         <ProductRegistration
           onSubmit={createProduct}
@@ -96,13 +107,13 @@ function ProductListPage() {
 
         <div className="order-buttons">
           <button
-            className={`order-btn${order === "newest" ? " active" : ""}`}
+            className={`order-btn ${order === "newest" ? "active" : ""}`}
             onClick={handleNewestClick}
           >
             {t("order newest")}
           </button>
           <button
-            className={`order-btn${order === "priceLowest" ? " active" : ""}`}
+            className={`order-btn ${order === "priceLowest" ? "active" : ""}`}
             onClick={handleCheapestClick}
           >
             {t("order cheapest")}

@@ -1,25 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTranslate from "../hooks/useTranslate";
 import styles from "./SearchForm.module.css";
 
 function SearchForm({ initialValue = "", onSubmit }) {
   const t = useTranslate();
-  const [value, setValue] = useState(initialValue);
+  const [keyword, setKeyword] = useState(initialValue);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(keyword);
+  };
 
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setKeyword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(value);
-  };
+  useEffect(() => {
+    setKeyword(initialValue);
+  }, [initialValue]);
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSearchSubmit}>
       <input
         name="search"
-        value={value}
+        value={keyword}
         onChange={handleChange}
         placeholder={t("search placeholder")}
       />
