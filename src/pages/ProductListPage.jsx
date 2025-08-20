@@ -12,6 +12,7 @@ import useTranslate from "../hooks/useTranslate";
 import SearchForm from "../components/SearchForm";
 import ProductRegistration from "../components/ProductRegistration";
 import "./ProductListPage.css";
+import Warn from "../components/Warn";
 
 // LIMIT개씩 불러오기
 const LIMIT = 6;
@@ -126,6 +127,13 @@ function ProductListPage() {
           onUpdate={updateProduct}
           onUpdateSuccess={handleUpdateProductSuccess}
         ></ProductList>
+        {products.length === 0 && !isProductsLoading && (
+          <Warn
+            className="emptyList"
+            title="조건에 맞는 상품이 없습니다."
+            description="검색어를 확인해주세요."
+          />
+        )}
         {(isProductsLoading || isDeleting) && <div className="spinner"></div>}
         {hasMore && (
           <button
